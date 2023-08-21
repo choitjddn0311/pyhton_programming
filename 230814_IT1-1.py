@@ -48,7 +48,7 @@ def mul(*values):
     for value in values: ## values 가변 함수에 입력값을 따로 받기
         out = out * value
     return out
-
+ 
 print(mul(5, 7, 9, 10))
 
 
