@@ -2,14 +2,12 @@ import json
 import requests
 import time
 import urllib
-
-from random import *
+import random
 
 TOKEN = "6647455306:AAGBJT5KFhUgX7wyvKBgPQhO73t2fN48mI0"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
-words = ["배준호","배성호","유현재","이태우","홍빈","방지원"]
-
+gamelist = {}
 
 def get_url(url):
     response = requests.get(url)
@@ -38,17 +36,6 @@ def get_last_update_id(updates):
     return max(update_ids)
 
 
-def process_all(updates):
-    for update in updates["result"]:
-        text = update["message"]["text"]
-        chat = update["message"]["chat"]["id"]
-    if(text == "/hangman"):
-            send_message("단어맞추기 행맨 게임을 시작하겠습니다.",chat)
-    elif(text == "/stop"):
-            send_message("게임을 중단하겠습니다.",chat)
-            send_message(text, chat)
-
-
 def get_last_chat_id_and_text(updates):
     num_updates = len(updates["result"])
     last_update = num_updates - 1
@@ -57,6 +44,12 @@ def get_last_chat_id_and_text(updates):
     return (text, chat_id)
 
 
+def process_all(updates):
+    for update in updates["result"]:
+        try:
+            text = update["massage"]["text"]
+            chat = update["massage"]["chat"]["id"]
+            
 def send_message(text, chat_id):
     text = urllib.parse.quote_plus(text)
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
