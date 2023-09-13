@@ -9,7 +9,7 @@ TOKEN = "6647455306:AAGBJT5KFhUgX7wyvKBgPQhO73t2fN48mI0"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 gamelist={}
-words=["choi","seong" , "woo"]
+
 def get_url(url):
     response = requests.get(url)
     content = response.content.decode("utf8")
@@ -43,20 +43,32 @@ def echo_all(updates):
             text = update["message"]["text"]
             chat = update["message"]["chat"]["id"]
             # print(gamelist) #for debuging
-            if(text == "/hangman"):
-                send_message("행맨 게임을 시작합니다. ", chat)
-                word = choice(words)
-                print("game started with", chat, "/ Q:", word)
-                gamelist[chat] = [word, False]  # Q, A, Success?
+            if(text == "/numgame"):
+                send_message("넘버 게임을 시작합니다. ", chat)
+                rn  = randrange(1,101,1)
+                count = 1
+                print("game started with", chat, "/ 1~100 사이 숫자를 입력하세요:", rn)
+                gamelist[chat] = [rn, count , False]  # Q, A, Success?
             elif(text == "/stop"):
                 send_message("게임을 중단합니다. ", chat)
                 gamelist[chat] = []
             elif(text == "/start"):
                 print("new user:", chat)
                 send_message(
-                    "반갑습니다. 행맨 봇입니다. 게임을 시작하기 원하시면 /hangman 명령을 입력하세요. 게임을 멈추고 싶을 때는 언제든 /stop 명령을 입력하면 됩니다. ", chat)
-            elif(len(gamelist[chat]) > 1 and not gamelist[chat][1]):
+                    "반갑습니다. 넘버게임 봇입니다. 게임을 시작하기 원하시면 /numgame 명령을 입력하세요. 게임을 멈추고 싶을 때는 언제든 /stop 명령을 입력하면 됩니다. ", chat)
+            elif(len(gamelist[chat]) > 1 and not gamelist[chat][2]):
+                num = int(text)
+                print(gamelist)
                 print(chat, "entered", text)
+                if (num > gamelist[0]):
+                    send_message("down" , chat)
+                    gamelist[1] +=1
+                elif (num < gamelist[0]):
+                    send_message("up",chat)
+                    gamelist[1] +=1
+                elif (num == gamelist[0]):
+                    send_message("정답입네다" , chat)
+                    gamelist[2] = succeed
                 succeed = True
                 feedback = ""
                 for w in gamelist[chat][0]:
