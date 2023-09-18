@@ -44,10 +44,10 @@ def echo_all(updates):
             chat = update["message"]["chat"]["id"]
             # print(gamelist) #for debuging
             if(text == "/numgame"):
-                send_message("넘버 게임을 시작합니다. ", chat)
+                send_message("넘버 게임을 시작합니다. 숫자를 입력해주세요", chat)
                 rn  = randrange(1,101,1)
                 count = 1
-                print("game started with", chat, "/ 1~100 사이 숫자를 입력하세요:", rn)
+                print("game started with", chat, "/ rannum", rn)
                 gamelist[chat] = [rn, count , False]  # Q, A, Success?
             elif(text == "/stop"):
                 send_message("게임을 중단합니다. ", chat)
@@ -71,8 +71,8 @@ def echo_all(updates):
                     gamelist[2] = succeed
                 succeed = True
                 feedback = ""
-                for w in gamelist[chat][0]:
-                    if w in text:
+                for rn in gamelist[chat][0]:
+                    if rn in text:
                         feedback += w + " "
                     else:
                         feedback += "_ "
@@ -80,7 +80,7 @@ def echo_all(updates):
                 gamelist[chat][1] = succeed
                 send_message(feedback, chat)
 
-                if succeed:
+                if rn == gamelist[chat[0]]:
                     send_message("맞췄습니다!!!", chat)
                     print(chat, "finished a game")
                     gamelist[chat] = []
