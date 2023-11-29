@@ -73,3 +73,8 @@
 #   print(arr[3])
 # except:
 #  print("리스트의 요소에 접근하지 못했습니다.")
+
+
+
+
+#how can i choose my dream? i don't know . there are many kind of job but i can't choose because i don't know my aptitude 
